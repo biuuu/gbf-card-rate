@@ -2,10 +2,7 @@ name: Update Rate
 
 on:
   schedule:
-    - cron:  '0 20 * * *'
-  push:
-    branches:
-      - master
+    - cron:  '0 10 * * *'
 
 jobs:
   main:
