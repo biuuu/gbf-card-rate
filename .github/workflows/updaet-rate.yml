@@ -3,6 +3,8 @@ name: Update Rate
 on:
   schedule:
     - cron:  '0 10 * * *'
+  push:
+    branches: [ master ]
 
 jobs:
   main:
@@ -24,5 +26,6 @@ jobs:
       with:
         commit_message: Update rate
         build_dir: dist
+        keep_history: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

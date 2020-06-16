@@ -30,12 +30,12 @@ const main = async () => {
     rate1 = res.appear
   }
   if (id10) {
-    const res = await $.get(`/gacha/provision_ratio/${id10}/1`)
+    const res = await $.get(`/gacha/provision_ratio/${id10}/2`)
     rate10 = res.appear
     
   }
   if (idSSR) {
-    const res = await $.get(`/gacha/provision_ratio/${idSSR}/1`)
+    const res = await $.get(`/gacha/provision_ratio/${idSSR}/3`)
     rateSSR = res.appear
   }
   return [rate1, rate10, rateSSR]
