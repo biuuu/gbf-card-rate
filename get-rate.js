@@ -2,8 +2,8 @@ const main = async () => {
   let id10
   let id1
   let idSSR
+  let end
   await $.get('/gacha/list').then(data => {
-    
     data.legend.lineup.forEach(item => {
       if (item.times === '10') {
         if (item.description.includes('SSレア')) {
@@ -15,9 +15,10 @@ const main = async () => {
           }
         } else {
           id10 = item.id
+          item.service_end
         }
       } else if (item.times === '1') {
-        id1 = item.id
+        end = id1 = item.id
       }
     })
   })
@@ -26,7 +27,7 @@ const main = async () => {
   let rate10 = ''
   let rateSSR = ''
   if (id1) {
-    const res = await $.get(`/gacha/provision_ratio/${id1}/1`)
+    const res = await $.get(`/gacha/provision_ratio/${id10}/1`)
     rate1 = res.appear
   }
   if (id10) {
@@ -38,7 +39,7 @@ const main = async () => {
     const res = await $.get(`/gacha/provision_ratio/${idSSR}/3`)
     rateSSR = res.appear
   }
-  return [rate1, rate10, rateSSR]
+  return [rate1, rate10, rateSSR, end]
 }
 
 module.exports = main
