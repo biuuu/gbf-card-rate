@@ -15,10 +15,10 @@ const main = async () => {
           }
         } else {
           id10 = item.id
-          item.service_end
+          end = item.service_end
         }
       } else if (item.times === '1') {
-        end = id1 = item.id
+        id1 = item.id
       }
     })
   })
