@@ -25,16 +25,6 @@ jobs:
       run: |
         yarn --frozen-lockfile
         node index.js
-    - name: Commit changes
-      run: |
-        git add --a
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "tenka"
-        echo "::set-env name=commit_state::$(git commit -m 'Update next time' | tr '\n' ' ' | cut -c50-100)"
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.UPDATE_WORKFLOW }}
     - name: Deploy
       if: success()
       uses: crazy-max/ghaction-github-pages@v2
