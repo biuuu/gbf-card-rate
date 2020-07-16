@@ -5,8 +5,6 @@ on:
     - cron:  '2 10 16 7 *'
   push:
     branches: [ master ]
-    paths:
-      - '*.js'
 
 jobs:
   main:
