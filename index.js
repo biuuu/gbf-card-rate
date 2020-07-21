@@ -26,14 +26,18 @@ const updateNextTime = async (time) => {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
+  page.setDefaultNavigationTimeout(60 * 1000)
+  await page.setExtraHTTPHeaders({
+    Cookie: 'access_gbtk=e4fde41d4bb14b58fa941f14a318c190fbfd1146; access_gbtk=e4fde41d4bb14b58fa941f14a318c190fbfd1146; _fbp=fb.1.1591857823982.979263735; wing=%2Fc4GN2uLIEX3IRHjp0gnxMoDyRUDYPOSma5%2BcaDP8EX2UvExM%2B3pLNp16sIOVK3D; t=notoken; midship=S%3AKNTIaocNoCgTCryjsOMVIDX38dwiKO0wcBjSSNDyDm9BLaxbWdaWv4fjHlFy-7sr1_FQHGH469sxeWSnHgA2ss5oUhPx6JXpfU-EDgOhKH11gOGmvof167GcbH9EIvsV1jCaTn8DLEYDhw9IDJkGZT_MwahopZmOwuwNJlCD9EKHTQ6CbxbJEuWICz3M0gGdrETSbn0F9VMhCb6WB8ODpliRMw5atQ0olK48Cf_KQXJr_Q%3D%3D'
+  })
   await page.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/84.0.4133.0')
-  await page.goto('http://game.granbluefantasy.jp/#tutorial/2/0')
+  await page.goto('http://game.granbluefantasy.jp/#tutorial/3')
   console.log('loaded')
   
-  await page.waitForSelector('.female')
-  await page.click('.female')
+  // await page.waitForSelector('.female')
+  // await page.click('.female')
 
-  await waitClick('.btn-start', page)
+  // await waitClick('.btn-start', page)
   
   const [rate1, rate10, rateSSR, end] = await page.evaluate(rate)
 
@@ -42,7 +46,7 @@ const updateNextTime = async (time) => {
   await fs.outputJSON('./dist/sr.json', rate10)
   await fs.outputJSON('./dist/ssr.json', rateSSR)
 
-  await updateNextTime(end)
+  // await updateNextTime(end)
   
   await browser.close()
 })()
