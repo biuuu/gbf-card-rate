@@ -22,7 +22,7 @@ const updateNextTime = async (time) => {
   await fs.writeFile('./.github/workflows/update-rate.yml', text.replace(/- cron:  '[^']+'/, `- cron:  '${cron}'`))
 }
 
-(async () => {
+const main = async () => {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
@@ -49,4 +49,6 @@ const updateNextTime = async (time) => {
   // await updateNextTime(end)
   
   await browser.close()
-})()
+}
+
+main()
