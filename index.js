@@ -33,7 +33,7 @@ const rarityType = {
 }
 
 const getCard = (data) => {
-  if (!data || !data.length) return
+  if (!data || !data.length) return []
   const card = []
   data.forEach(item => {
     const cat = cardType[item.category]
