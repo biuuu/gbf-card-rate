@@ -57,6 +57,8 @@ const main = async () => {
     await fs.outputJSON('./dist/normal.json', rate1)
     await fs.outputJSON('./dist/sr.json', rate10)
     await fs.outputJSON('./dist/ssr.json', rateSSR)
+  } else {
+    console.log('evalute failed')
   }
   // await updateNextTime(end)
   
