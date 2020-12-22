@@ -6,7 +6,9 @@
   "author": "mio <10892119+biuuu@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.21.1",
     "fs-extra": "^9.0.1",
+    "glob": "^7.1.6",
     "puppeteer": "^3.3.0"
   }
 }

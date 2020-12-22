@@ -1,6 +1,14 @@
 const puppeteer = require('puppeteer')
 const rate = require('./get-rate')
 const fs = require('fs-extra')
+const { downloadImage } = require('./utils')
+
+let savedImage = []
+try {
+  savedImage = fs.readJSONSync('./dist/info.json')
+} catch (e) {
+  console.log('read info.json failed')
+}
 
 const waitClick = async (sel, page) => {
   await page.waitForSelector(sel)
@@ -15,6 +23,38 @@ const sleep = (time) => {
   return new Promise(rev => {
     setTimeout(() => rev([]), time)
   })
+}
+
+const getCard = (data) => {
+  const card = []
+  data.forEach(item => {
+    const cat = cardType[item.category]
+    const type = rarityType[item.rarity]
+    item.item.forEach(obj => {
+      card.push({
+        id: obj.reward_id,
+        rate: parseFloat(obj.drop_rate) / 100,
+        cat: cat,
+        type
+      })
+    })
+  })
+  return card
+}
+
+const getImage = async (card) => {
+  for (let item of card) {
+    const url = `http://game-a1.granbluefantasy.jp/assets/img/sp/assets/${item.cat}/m/${item.id}.jpg`;
+    const name = `card-${item.id}`
+    if (!savedImage.includes(name)) {
+      try {
+        await downloadImage(url, `./dist/image/card/`, `${item.id}.jpg`)
+        savedImage.push(name)
+      } catch (e) {
+        console.error(e.message)
+      }
+    }
+  }
 }
 
 const updateNextTime = async (time) => {
@@ -57,6 +97,10 @@ const main = async () => {
     await fs.outputJSON('./dist/normal.json', rate1)
     await fs.outputJSON('./dist/sr.json', rate10)
     await fs.outputJSON('./dist/ssr.json', rateSSR)
+    await getImage(getCard(rate1))
+    await getImage(getCard(rate10))
+    await getImage(getCard(rateSSR))
+    await fs.outputJSON('./dist/info.json', savedImage)
   } else {
     console.log('evalute failed')
   }
