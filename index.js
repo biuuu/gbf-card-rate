@@ -25,7 +25,7 @@ const updateNextTime = async (time) => {
 const str = process.argv[process.argv.length - 1]
 let cookie = ''
 if (/^--COOKIE=.+/.test(str)) {
-  cookie = str.replace('--COOKIE=', '')
+  cookie = decodeURIComponent(str.replace('--COOKIE=', ''))
   console.log(cookie)
 }
 
