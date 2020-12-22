@@ -11,6 +11,12 @@ const waitClick = async (sel, page) => {
   console.log(`${sel} clicked`)
 }
 
+const sleep = (time) => {
+  return new Promise(rev => {
+    setTimeout(() => rev([]), time)
+  })
+}
+
 const updateNextTime = async (time) => {
   const nextDate = new Date(Date.parse(time + '+0900') + 3 * 60 * 1000)
   const min = nextDate.getUTCMinutes()
@@ -45,14 +51,13 @@ const main = async () => {
   // await page.click('.female')
 
   // await waitClick('.btn-start', page)
-  
-  const [rate1, rate10, rateSSR, end] = await page.evaluate(rate)
-
-  await fs.ensureDir('./dist/')
-  await fs.outputJSON('./dist/normal.json', rate1)
-  await fs.outputJSON('./dist/sr.json', rate10)
-  await fs.outputJSON('./dist/ssr.json', rateSSR)
-
+  const [rate1, rate10, rateSSR, end] = await Promise.race([page.evaluate(rate), sleep(30 * 1000)])
+  if (rate1) {
+    await fs.ensureDir('./dist/')
+    await fs.outputJSON('./dist/normal.json', rate1)
+    await fs.outputJSON('./dist/sr.json', rate10)
+    await fs.outputJSON('./dist/ssr.json', rateSSR)
+  }
   // await updateNextTime(end)
   
   await browser.close()
