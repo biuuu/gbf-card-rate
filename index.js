@@ -106,9 +106,13 @@ const main = async () => {
     await fs.outputJSON('./dist/normal.json', rate1)
     await fs.outputJSON('./dist/sr.json', rate10)
     await fs.outputJSON('./dist/ssr.json', rateSSR)
-    await getImage(getCard(rate1))
-    await getImage(getCard(rate10))
-    await getImage(getCard(rateSSR))
+    try {
+      await getImage(getCard(rate1))
+      await getImage(getCard(rate10))
+      await getImage(getCard(rateSSR))
+    } catch (e) {
+      console.log(e.message)
+    }
     await fs.outputJSON('./dist/info.json', savedImage)
   } else {
     console.log('evalute failed')
