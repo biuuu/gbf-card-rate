@@ -25,6 +25,13 @@ const sleep = (time) => {
   })
 }
 
+const cardType = ['weapon', 'weapon', 'summon']
+const rarityType = {
+  2: 'r',
+  3: 'sr',
+  4: 'ssr'
+}
+
 const getCard = (data) => {
   const card = []
   data.forEach(item => {
@@ -44,12 +51,13 @@ const getCard = (data) => {
 
 const getImage = async (card) => {
   for (let item of card) {
-    const url = `http://game-a1.granbluefantasy.jp/assets/img/sp/assets/${item.cat}/m/${item.id}.jpg`;
+    const url = `http://game-a1.granbluefantasy.jp/assets/img/sp/assets/${item.cat}/m/${item.id}.jpg`
     const name = `card-${item.id}`
     if (!savedImage.includes(name)) {
       try {
         await downloadImage(url, `./dist/image/card/`, `${item.id}.jpg`)
         savedImage.push(name)
+        console.log(url)
       } catch (e) {
         console.error(e.message)
       }
