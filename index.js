@@ -22,7 +22,7 @@ const updateNextTime = async (time) => {
   await fs.writeFile('./.github/workflows/update-rate.yml', text.replace(/- cron:  '[^']+'/, `- cron:  '${cron}'`))
 }
 
-const str = process.argv.slice(-1)
+const str = process.argv[process.argv.length - 1]
 let cookie = ''
 if (/^--COOKIE=.+/.test(str)) {
   cookie = str.replace('--COOKIE=', '')
