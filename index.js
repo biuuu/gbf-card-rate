@@ -95,30 +95,34 @@ const main = async () => {
   await page.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/84.0.4133.0')
   await page.goto('http://game.granbluefantasy.jp/#tutorial/3')
   console.log('loaded')
-  
+
   // await page.waitForSelector('.female')
   // await page.click('.female')
 
   // await waitClick('.btn-start', page)
-  const [rate1, rate10, rateSSR, end] = await Promise.race([page.evaluate(rate), sleep(30 * 1000)])
-  if (rate1) {
-    await fs.ensureDir('./dist/')
-    await fs.outputJSON('./dist/normal.json', rate1)
-    await fs.outputJSON('./dist/sr.json', rate10)
-    await fs.outputJSON('./dist/ssr.json', rateSSR)
-    try {
+  try {
+    const [rate1, rate10, rateSSR, end, w2c] = await Promise.race([page.evaluate(rate), sleep(30 * 1000)])
+    if (rate1) {
+      await fs.ensureDir('./dist/')
+      await fs.outputJSON('./dist/normal.json', rate1)
+      await fs.outputJSON('./dist/sr.json', rate10)
+      await fs.outputJSON('./dist/ssr.json', rateSSR)
+      await fs.outputJSON('./dist/w2c.json', w2c)
+
       await getImage(getCard(rate1))
       await getImage(getCard(rate10))
       await getImage(getCard(rateSSR))
-    } catch (e) {
-      console.log(e.message)
+
+      await fs.outputJSON('./dist/info.json', savedImage)
+    } else {
+      console.log('evalute failed')
     }
-    await fs.outputJSON('./dist/info.json', savedImage)
-  } else {
-    console.log('evalute failed')
+  } catch (e) {
+    console.log(e.message)
   }
+
   // await updateNextTime(end)
-  
+
   await browser.close()
 }
 
