@@ -75,12 +75,12 @@ const getImage = async (card) => {
     const name = `card-${item.id}`
     const pathname = `./dist/image/card/${item.id}.jpg`
     await download(name, url, pathname)
-    if (item.cat === 'weapon' && type === 'ssr' && w2c[item.id]) {
+    if (item.cat === 'weapon' && item.type === 'ssr' && w2c[item.id]) {
       let cid = w2c[item.id]
       await download(`char-${cid}-1`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/npc/zoom/${cid}_01.png`, `./dist/image/char/${cid}_01.png`)
       await download(`char-${cid}-2`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/npc/zoom/${cid}_02.png`, `./dist/image/char/${cid}_02.png`)
     }
-    if (item.cat === 'summon' && type === 'ssr') {
+    if (item.cat === 'summon' && item.type === 'ssr') {
       await download(`summon-${cid}`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/summon/b/${item.id}.png`, `./dist/image/summon/${item.id}.png`)
     }
   }
