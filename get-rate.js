@@ -40,6 +40,7 @@ const main = async () => {
         data[wid] = cid
       }
     })
+    return data
   }
 
   let rate1 = []
