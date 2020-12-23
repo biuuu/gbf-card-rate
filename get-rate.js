@@ -1,22 +1,3 @@
-const getChar = async (id10) => {
-  const res = await $.get(`/gacha/content/release/legend/${id10}`)
-  const html = decodeURIComponent(res.data)
-  const $html = $(html)
-  const data = {}
-  const items = $html
-    .find('.prt-release-lineup .prt-lineup:eq(0)')
-    .find('.prt-topic-item')
-    .find('.lis-topic-item')
-  items.each(function () {
-    const item = $(this)
-    const wid = item.find('.btn-topic .img-topic').attr('alt')
-    const cid = item.find('.btn-character .img-open-character').attr('alt').replace(/_0[12]$/, '')
-    if (wid && cid) {
-      data[wid] = cid
-    }
-  })
-}
-
 const main = async () => {
   let id10
   let id1
@@ -41,6 +22,25 @@ const main = async () => {
       }
     })
   })
+
+  const getChar = async (id10) => {
+    const res = await $.get(`/gacha/content/release/legend/${id10}`)
+    const html = decodeURIComponent(res.data)
+    const $html = $(html)
+    const data = {}
+    const items = $html
+      .find('.prt-release-lineup .prt-lineup:eq(0)')
+      .find('.prt-topic-item')
+      .find('.lis-topic-item')
+    items.each(function () {
+      const item = $(this)
+      const wid = item.find('.btn-topic .img-topic').attr('alt')
+      const cid = item.find('.btn-character .img-open-character').attr('alt').replace(/_0[12]$/, '')
+      if (wid && cid) {
+        data[wid] = cid
+      }
+    })
+  }
 
   let rate1 = []
   let rate10 = []
