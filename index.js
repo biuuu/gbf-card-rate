@@ -81,7 +81,7 @@ const getImage = async (card) => {
       await download(`char-${cid}-2`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/npc/zoom/${cid}_02.png`, `./dist/image/char/${cid}_02.png`)
     }
     if (item.cat === 'summon' && item.type === 'ssr') {
-      await download(`summon-${cid}`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/summon/b/${item.id}.png`, `./dist/image/summon/${item.id}.png`)
+      await download(`summon-${item.id}`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/summon/b/${item.id}.png`, `./dist/image/summon/${item.id}.png`)
     }
   }
 }
