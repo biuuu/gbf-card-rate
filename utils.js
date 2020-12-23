@@ -28,12 +28,12 @@ const fetchImage = async (url, times = 0) => {
   }
 }
 
-const downloadImage = async function (url, dir, name) {
-  const filePath = path.resolve(dir, name)
+const downloadImage = async function (url, pathname) {
+  const dir = path.dirname(pathname)
   await fs.ensureDir(dir)
-  const writer = fs.createWriteStream(filePath)
+  const writer = fs.createWriteStream(pathname)
   const response = await fetchImage(url)
-  
+
   response.data.pipe(writer)
 
   return new Promise((resolve, reject) => {

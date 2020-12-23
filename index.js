@@ -10,6 +10,13 @@ try {
   console.log('read info.json failed')
 }
 
+let w2c = {}
+try {
+  w2c = fs.readJSONSync('./dist/w2c.json')
+} catch (e) {
+  console.log('read w2c.json failed')
+}
+
 const waitClick = async (sel, page) => {
   await page.waitForSelector(sel)
   await Promise.all([
@@ -50,18 +57,31 @@ const getCard = (data) => {
   return card
 }
 
+const download = async (name, url, pathname) => {
+  if (!savedImage.includes(name)) {
+    try {
+      await downloadImage(url, pathname)
+      savedImage.push(name)
+      console.log(url)
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+}
+
 const getImage = async (card) => {
   for (let item of card) {
     const url = `http://game-a1.granbluefantasy.jp/assets/img/sp/assets/${item.cat}/m/${item.id}.jpg`
     const name = `card-${item.id}`
-    if (!savedImage.includes(name)) {
-      try {
-        await downloadImage(url, `./dist/image/card/`, `${item.id}.jpg`)
-        savedImage.push(name)
-        console.log(url)
-      } catch (e) {
-        console.error(e.message)
-      }
+    const pathname = `./dist/image/card/${item.id}.jpg`
+    await download(name, url, pathname)
+    if (item.cat === 'weapon' && type === 'ssr' && w2c[item.id]) {
+      let cid = w2c[item.id]
+      await download(`char-${cid}-1`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/npc/zoom/${cid}_01.png`, `./dist/image/char/${cid}_01.png`)
+      await download(`char-${cid}-2`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/npc/zoom/${cid}_02.png`, `./dist/image/char/${cid}_02.png`)
+    }
+    if (item.cat === 'summon' && type === 'ssr') {
+      await download(`summon-${cid}`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/summon/b/${item.id}.png`, `./dist/image/summon/${item.id}.png`)
     }
   }
 }
@@ -101,7 +121,8 @@ const main = async () => {
 
   // await waitClick('.btn-start', page)
   try {
-    const [rate1, rate10, rateSSR, end, w2c] = await Promise.race([page.evaluate(rate), sleep(30 * 1000)])
+    const [rate1, rate10, rateSSR, end, weapon2char] = await Promise.race([page.evaluate(rate), sleep(30 * 1000)])
+    if (weapon2char) w2c = weapon2char
     if (rate1) {
       await fs.ensureDir('./dist/')
       await fs.outputJSON('./dist/normal.json', rate1)
