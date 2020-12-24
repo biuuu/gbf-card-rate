@@ -79,6 +79,7 @@ const getImage = async (card) => {
       let cid = w2c[item.id]
       await download(`char-${cid}-1`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/npc/zoom/${cid}_01.png`, `./dist/image/char/${cid}_01.png`)
       await download(`char-${cid}-2`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/npc/zoom/${cid}_02.png`, `./dist/image/char/${cid}_02.png`)
+      await download(`card-${cid}-1`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/npc/m/${cid}_01.jpg`, `./dist/image/card/${cid}_01.jpg`)
     }
     if (item.cat === 'summon' && item.type === 'ssr') {
       await download(`summon-${item.id}`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/summon/b/${item.id}.png`, `./dist/image/summon/${item.id}.png`)
