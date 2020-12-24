@@ -22,7 +22,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - name: Get Rate
+    - name: Build page
       run: |
         yarn --frozen-lockfile
         yarn build
@@ -30,7 +30,7 @@ jobs:
       if: success()
       uses: crazy-max/ghaction-github-pages@v2
       with:
-        commit_message: Update rate
+        commit_message: Update page
         build_dir: dist
         keep_history: true
       env:
