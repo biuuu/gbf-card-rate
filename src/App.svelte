@@ -30,7 +30,7 @@
 	let cardSR = null
 	let result = []
 	let w2c = {}
-	let bg = `${hosthame}/gbf-card-rate/image/char/3040311000_02.png`
+	let bg = `${hostname}/image/char/3040311000_02.png`
 
 	const cardType = ['weapon', 'weapon', 'summon']
 	const rarityType = {
@@ -40,7 +40,7 @@
 	}
 
 	const getRate = async type => {
-		const response = await fetch(`${hostname}/gbf-card-rate/${type}.json`)
+		const response = await fetch(`${hostname}/${type}.json`)
 		const data = await response.json()
 		const card = []
 		data.forEach(item => {
@@ -60,7 +60,7 @@
 	}
 
 	const getW2C = async () => {
-		const response = await fetch(`${hostname}/gbf-card-rate/w2c.json`)
+		const response = await fetch(`${hostname}/w2c.json`)
 		const data = await response.json()
 		w2c = data
 	}
@@ -116,9 +116,9 @@
 		list.forEach(item => {
 			if (item.type === 'ssr') {
 				if (item.cat === 'weapon' && w2c[item.id]) {
-					npc = `${hostname}/gbf-card-rate/image/char/${w2c[item.id]}_02.png`
+					npc = `${hostname}/image/char/${w2c[item.id]}_02.png`
 				} else if (item.cat === 'summon') {
-					summon = `${hostname}/gbf-card-rate/image/summon/${item.id}.png`
+					summon = `${hostname}/image/summon/${item.id}.png`
 				}
 			}
 		})
@@ -137,7 +137,7 @@
 		let list = cards.map(card => {
 			count[card.type] += 1
 			return {
-				url: `${hostname}/gbf-card-rate/image/card/${card.id}.jpg`,
+				url: `${hostname}/image/card/${card.id}.jpg`,
 				type: card.type,
 				name: card.name
 			}
@@ -203,7 +203,7 @@
 		overflow: hidden;
 	}
 	.bg > .pic {
-		background: #acd5cd url(https://gacha.danmu9.com/gbf-card-rate/image/char/3040311000_02.png) center center no-repeat;
+		background: #acd5cd url(https://gacha.danmu9.com/image/char/3040311000_02.png) center center no-repeat;
 		background-size: cover;
 		filter: blur(8px);
 		height: 100%;
@@ -221,7 +221,7 @@
 		background-color: rgb(172 172 172 / 16%);
 	}
 	.stage {
-		background: url(https://gacha.danmu9.com/gbf-card-rate/image/gacha_result_bg.jpg) 50% 25% no-repeat;
+		background: url(https://gacha.danmu9.com/image/gacha_result_bg.jpg) 50% 25% no-repeat;
 		background-size: 485px;
 		width: 100%;
 		height: 300px;
