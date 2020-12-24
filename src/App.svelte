@@ -163,8 +163,8 @@
 	const bgOffset = (e) => {
 		let x = -(e.clientX / window.innerWidth - 0.5) * 70
 		let y = -(e.clientY / window.innerHeight - 0.5) * 70
-		x = checkSize(x)
-		y = checkSize(y)
+		x = checkSize(x, 70)
+		y = checkSize(y, 70)
 		coords.set({ x, y })
 	}
 
