@@ -1,0 +1,37 @@
+name: Build page
+
+on:
+  workflow_dispatch:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.UPDATE_WORKFLOW }}
+    - name: Checkout gh
+      uses: actions/checkout@v2
+      with:
+        ref: gh-pages
+        path: dist
+        token: ${{ secrets.UPDATE_WORKFLOW }}
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Get Rate
+      run: |
+        yarn --frozen-lockfile
+        yarn build
+    - name: Deploy
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v2
+      with:
+        commit_message: Update rate
+        build_dir: dist
+        keep_history: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
