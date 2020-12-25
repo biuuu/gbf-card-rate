@@ -279,6 +279,7 @@
 		left: 0;
 		top: 0;
 		background-color: rgb(172 172 172 / 16%);
+		flex: 1;
 	}
 	.stage {
 		background: url(https://gacha.danmu9.com/image/gacha_result_bg.jpg) 50% 25% no-repeat;
