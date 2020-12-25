@@ -4,6 +4,7 @@
 	import { tweened } from 'svelte/motion'
 	import { cubicOut } from 'svelte/easing'
 	import { loadImage } from './utils'
+	import { fly } from 'svelte/transition'
 
 	const hostname = 'https://gacha.danmu9.com'
 	const initCount = () => tweened(0, {
@@ -16,6 +17,11 @@
 		stiffness: 0.02,
 		damping: 0.9
 	})
+
+	let weaponList = []
+	let summonList = []
+
+	let active = true
 
 	let countR = initCount()
 	let countSR = initCount()
@@ -59,10 +65,13 @@
 		return card
 	}
 
+	let w2cLoaded = false
 	const getW2C = async () => {
+		if (w2cLoaded) return w2c
 		const response = await fetch(`${hostname}/w2c.json`)
 		const data = await response.json()
 		w2c = data
+		w2cLoaded = true
 	}
 
 	getW2C()
@@ -129,6 +138,42 @@
 		}
 	}
 
+	const getNpc = (card) => {
+		if (card.cat === 'weapon' && card.type === 'ssr') {
+			if (w2c[card.id]) {
+				return `${hostname}/image/card/${w2c[card.id]}_01.jpg`
+			}
+		}
+		return ''
+	}
+
+	const countCard = (card) => {
+		if (card.type === 'ssr') {
+			let list = summonList
+			if (card.cat === 'weapon') {
+				list = weaponList
+			}
+			const index = list.findIndex(item => item.id === card.id)
+			if (index !== -1) {
+				list[index].count++
+			} else {
+				list.push({
+					id: card.id,
+					url: `${hostname}/image/card/${card.id}.jpg`,
+					url2: getNpc(card),
+					type: card.type,
+					name: card.name,
+					count: 1
+				})
+			}
+			if (card.cat === 'weapon') {
+				weaponList = list
+			} else {
+				summonList = list
+			}
+		}
+	}
+
 	const start = async () => {
 		if (!cardN) cardN = await getRate('normal')
 		if (!cardSR) cardSR = await getRate('sr')
@@ -136,8 +181,10 @@
 		selectBg(cards)
 		let list = cards.map(card => {
 			count[card.type] += 1
+			countCard(card)
 			return {
 				url: `${hostname}/image/card/${card.id}.jpg`,
+				url2: getNpc(card),
 				type: card.type,
 				name: card.name
 			}
@@ -161,26 +208,31 @@
 	}
 
 	const bgOffset = (e) => {
-		let x = -(e.clientX / window.innerWidth - 0.5) * 70
-		let y = -(e.clientY / window.innerHeight - 0.5) * 70
-		x = checkSize(x, 70)
-		y = checkSize(y, 70)
-		coords.set({ x, y })
+		let x = Math.floor(-(e.clientX / window.innerWidth - 0.5) * 70)
+		let y = Math.floor(-(e.clientY / window.innerHeight - 0.5) * 70)
+		let _x = checkSize(x, 35)
+		let _y = checkSize(y, 35)
+		coords.set({ x: _x, y: _y })
 	}
 
 	start()
 </script>
 
 <div class="bg">
-	<div class="pic" style="background-image:url({bg}); transform: scale(1.2) translate({$coords.x}px, {$coords.y}px)"></div>
+	<div class="pic" style="background-image:url({bg}); transform: scale(1.2) translate({checkSize($coords.x, 35)}px, {checkSize($coords.y, 35)}px)"></div>
 </div>
-<div class="starlight" on:mousemove="{bgOffset}">
-	<div class="stage">
+<div class="starlight" on:mousemove="{bgOffset}" on:click="{() => active = false}">
+	<div class="weapon-list card-list" class:active={active}>
+		{#each weaponList as card}
+		<div class="card-wrap" in:fly="{{ y: 20, delay: 500 }}"><Card size="small" {...card} /></div>
+		{/each}
+	</div>
+	<div class="stage" class:active={active} on:mouseenter="{() => active = true}" on:click|stopPropagation="{() => active = true}">
 		<div class="content">
 			{#each result as block}
 				<div class="row">
 					{#each block as card}
-					<Card src="{card.url}" type="{card.type}" title="{card.name}" />
+					<Card {...card} />
 					{/each}
 				</div>
 			{/each}
@@ -195,6 +247,11 @@
 			</div>
 		</div>
 	</div>
+	<div class="summon-list card-list" class:active={active}>
+		{#each summonList as card}
+		<div class="card-wrap" in:fly="{{ y: -20, delay: 500 }}"><Card size="small" {...card} /></div>
+		{/each}
+	</div>
 </div>
 
 <style>
@@ -203,9 +260,11 @@
 		overflow: hidden;
 	}
 	.bg > .pic {
-		background: #acd5cd url(https://gacha.danmu9.com/image/char/3040311000_02.png) center center no-repeat;
+		background-color: #acd5cd;
+		background-position: center center;
+		background-repeat: no-repeat;
 		background-size: cover;
-		filter: blur(8px);
+		filter: blur(3px);
 		height: 100%;
 		transform: scale(1.2) translate(0, 0);
 	}
@@ -215,6 +274,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		flex-direction: column;
 		position: absolute;
 		left: 0;
 		top: 0;
@@ -223,14 +283,17 @@
 	.stage {
 		background: url(https://gacha.danmu9.com/image/gacha_result_bg.jpg) 50% 25% no-repeat;
 		background-size: 485px;
-		width: 100%;
+		opacity: 0.2;
 		height: 300px;
-		width: 480px;
+		width: 478px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		border: 4px solid #fff;
 		box-shadow: 0 0 8px rgb(0 0 0 / 20%);
+	}
+	.stage.active {
+		opacity: 1;
 	}
 	.row {
 		display: flex;
@@ -241,6 +304,26 @@
 	.content {
 		height: 194px;
 		margin-top: 14px;
+	}
+	.card-list {
+		display: flex;
+		flex: 1;
+		width: 490px;
+		padding: 4px 0;
+		box-sizing: border-box;
+		align-content: start;
+		flex-wrap: wrap;
+		min-height: calc(50vh - 154px);
+		opacity: 0;
+	}
+	.card-list.active {
+		opacity: 1;
+	}
+	.weapon-list {
+		flex-wrap: wrap-reverse;
+	}
+	.card-wrap {
+		margin: 2px 0;
 	}
 	.footer {
 		position: relative;

@@ -41,7 +41,7 @@ export default {
 		format: 'iife',
 		name: 'app',
 		dir: 'dist',
-		entryFileNames: production ? '[name].[hash].js' : 'build.js',
+		entryFileNames: production ? 'static/[name].[hash].js' : 'static/build.js',
 	},
 	plugins: [
 		svelte({
