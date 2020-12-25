@@ -80,7 +80,7 @@ export default {
 
 		html({
 			attributes: {html: { lang: 'zh-CN' }},
-			meta: [{ charset: 'utf-8' }, {name: 'viewport', content: 'width=480,user-scalable=no'}],
+			meta: [{ charset: 'utf-8' }, {name: 'viewport', content: 'width=492,user-scalable=no'}],
 			title: '碧蓝幻想 抽卡模拟器'
 		}),
 

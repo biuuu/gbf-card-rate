@@ -284,7 +284,7 @@
 	.stage {
 		background: url(https://gacha.danmu9.com/image/gacha_result_bg.jpg) 50% 25% no-repeat;
 		background-size: 485px;
-		opacity: 0.2;
+		opacity: 0;
 		height: 300px;
 		width: 478px;
 		display: flex;
