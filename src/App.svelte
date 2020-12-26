@@ -292,7 +292,8 @@
 		justify-content: center;
 		border: 4px solid #fff;
 		box-shadow: 0 0 8px rgb(0 0 0 / 20%);
-		flex: 1 0;
+		flex-grow: 1;
+		flex-shrink: 0;
 	}
 	.stage.active {
 		opacity: 1;
@@ -309,13 +310,12 @@
 	}
 	.card-list {
 		display: flex;
-		flex: 1;
 		width: 490px;
 		padding: 4px 0;
 		box-sizing: border-box;
 		align-content: start;
 		flex-wrap: wrap;
-		min-height: calc(50vh - 154px);
+		height: calc(50vh - 154px);
 		opacity: 0;
 		overflow-y: auto;
 	}
@@ -344,17 +344,16 @@
 	.btn {
 		background: url(btn.png) no-repeat center center;
 		background-size: contain;
-		width: 141px;
-		height: 36px;
-		display: inline-block;
-		padding-top: 10px;
+		padding: 12px 30px;
 		box-sizing: border-box;
+		display: inline-flex;
+    align-items: center;
+    justify-content: center;
 		color: #f2eee2;
 		text-shadow: 0 0 1px #532d0d, 0 0 1px #532d0d, 0 0 1px #532d0d, 0 0 1px #532d0d, 0 0 2px #532d0d, 0 0 2px #532d0d, 0 0 2px #532d0d, 0 0 2px #532d0d;
 		font-size: 12px;
 		text-align: center;
 		text-decoration: none;
-		line-height: 1;
 		cursor: pointer;
 	}
 	.btn:active {
@@ -363,16 +362,19 @@
 	#count {
 		display: flex;
 		margin-top: 6px;
+		flex-shrink: 0;
 	}
 	.label {
 		color: #fff;
-		padding: 4px 6px;
+		padding: 2px 6px;
 		margin: 0 2px;
 		border-radius: 4px;
-		line-height: 1;
 		font-size: 12px;
 		text-align: center;
 		min-width: 60px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	#count .label:nth-child(1) {
