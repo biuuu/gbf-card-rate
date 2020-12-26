@@ -344,11 +344,7 @@
 	.btn {
 		background: url(btn.png) no-repeat center center;
 		background-size: contain;
-		padding: 12px 30px;
-		box-sizing: border-box;
-		display: inline-flex;
-    align-items: center;
-    justify-content: center;
+		padding: 10px 30px 12px 30px;
 		color: #f2eee2;
 		text-shadow: 0 0 1px #532d0d, 0 0 1px #532d0d, 0 0 1px #532d0d, 0 0 1px #532d0d, 0 0 2px #532d0d, 0 0 2px #532d0d, 0 0 2px #532d0d, 0 0 2px #532d0d;
 		font-size: 12px;
