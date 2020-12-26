@@ -37,6 +37,9 @@
 	let result = []
 	let w2c = {}
 	let bg = `${hostname}/image/char/3040311000_02.png`
+	let weaponListHeight
+
+	$: overflow = 57 * Math.ceil(weaponList.length / 5) + 8 > weaponListHeight
 
 	const cardType = ['weapon', 'weapon', 'summon']
 	const rarityType = {
@@ -210,9 +213,7 @@
 	const bgOffset = (e) => {
 		let x = Math.floor(-(e.clientX / window.innerWidth - 0.5) * 70)
 		let y = Math.floor(-(e.clientY / window.innerHeight - 0.5) * 70)
-		let _x = checkSize(x, 35)
-		let _y = checkSize(y, 35)
-		coords.set({ x: _x, y: _y })
+		coords.set({ x, y })
 	}
 
 	start()
@@ -222,7 +223,7 @@
 	<div class="pic" style="background-image:url({bg}); transform: scale(1.2) translate({checkSize($coords.x, 35)}px, {checkSize($coords.y, 35)}px)"></div>
 </div>
 <div class="starlight" on:mousemove="{bgOffset}" on:click="{() => active = false}">
-	<div class="weapon-list card-list" class:active={active}>
+	<div class="weapon-list card-list" bind:clientHeight={weaponListHeight} class:active={active} class:reverse={!overflow}>
 		{#each weaponList as card}
 		<div class="card-wrap" in:fly="{{ y: 20, delay: 500 }}"><Card size="small" {...card} /></div>
 		{/each}
@@ -279,12 +280,11 @@
 		left: 0;
 		top: 0;
 		background-color: rgb(172 172 172 / 16%);
-		flex: 1;
 	}
 	.stage {
 		background: url(https://gacha.danmu9.com/image/gacha_result_bg.jpg) 50% 25% no-repeat;
 		background-size: 485px;
-		opacity: 0;
+		opacity: 0.05;
 		height: 300px;
 		width: 478px;
 		display: flex;
@@ -292,6 +292,7 @@
 		justify-content: center;
 		border: 4px solid #fff;
 		box-shadow: 0 0 8px rgb(0 0 0 / 20%);
+		flex: 1;
 	}
 	.stage.active {
 		opacity: 1;
@@ -316,12 +317,17 @@
 		flex-wrap: wrap;
 		min-height: calc(50vh - 154px);
 		opacity: 0;
+		overflow-y: auto;
+	}
+	.card-list::-webkit-scrollbar {
+    display: none;
 	}
 	.card-list.active {
 		opacity: 1;
 	}
-	.weapon-list {
+	.weapon-list.reverse {
 		flex-wrap: wrap-reverse;
+		flex-direction: row-reverse;
 	}
 	.card-wrap {
 		margin: 2px 0;

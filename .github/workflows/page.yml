@@ -2,7 +2,8 @@ name: Build page
 
 on:
   workflow_dispatch:
-
+  push:
+    branches: [ master ]
 jobs:
   main:
     runs-on: ubuntu-latest
