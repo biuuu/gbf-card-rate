@@ -292,7 +292,7 @@
 		justify-content: center;
 		border: 4px solid #fff;
 		box-shadow: 0 0 8px rgb(0 0 0 / 20%);
-		flex: 1;
+		flex: 1 0;
 	}
 	.stage.active {
 		opacity: 1;
