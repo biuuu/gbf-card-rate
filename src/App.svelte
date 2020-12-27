@@ -4,7 +4,7 @@
 	import { tweened } from 'svelte/motion'
 	import { cubicOut } from 'svelte/easing'
 	import { loadImage } from './utils'
-	import { fly } from 'svelte/transition'
+	import { fly, slide } from 'svelte/transition'
 
 	const hostname = 'https://gacha.danmu9.com'
 	const initCount = () => tweened(0, {
@@ -36,8 +36,11 @@
 	let cardSR = null
 	let result = []
 	let w2c = {}
-	let bg = `${hostname}/image/char/3040311000_02.png`
+	let bg1 = `${hostname}/image/char/3040311000_02.png`
+	let bg2 = ''
 	let weaponListHeight
+
+	let bgStatus = true
 
 	$: overflow = 57 * Math.ceil(weaponList.length / 5) + 8 > weaponListHeight
 
@@ -137,7 +140,12 @@
 		let result =  npc || summon
 		if (result) {
 			await loadImage(result)
-			bg = result
+			if (bgStatus) {
+				bg2 = result
+			} else {
+				bg1 = result
+			}
+			bgStatus = !bgStatus
 		}
 	}
 
@@ -220,7 +228,11 @@
 </script>
 
 <div class="bg">
-	<div class="pic" style="background-image:url({bg}); transform: scale(1.2) translate({checkSize($coords.x, 35)}px, {checkSize($coords.y, 35)}px)"></div>
+	{#if bgStatus}
+	<div class="pic" transition:slide style="background-image:url({bg1}); transform: scale(1.2) translate({checkSize($coords.x, 35)}px, {checkSize($coords.y, 35)}px)"></div>
+	{:else}
+	<div class="pic" transition:slide style="background-image:url({bg2}); transform: scale(1.2) translate({checkSize($coords.x, 35)}px, {checkSize($coords.y, 35)}px)"></div>
+	{/if}
 </div>
 <div class="starlight" on:mousemove="{bgOffset}" on:click="{() => active = false}">
 	<div class="weapon-list card-list" bind:clientHeight={weaponListHeight} class:active={active} class:reverse={!overflow}>
