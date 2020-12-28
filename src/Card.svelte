@@ -71,7 +71,7 @@
     width: 94px;
     height: 55px;
   }
-  .mask, .pic2 {
+  .mask, .pic {
     position: absolute;
     left: 0;
     top: 0;
@@ -79,7 +79,6 @@
     height: 100%;
   }
   .pic {
-    height: 100%;
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
