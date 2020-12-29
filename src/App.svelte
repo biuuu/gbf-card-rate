@@ -1,10 +1,10 @@
 <script>
 	import Card from './Card.svelte'
-	import { spring } from 'svelte/motion'
-	import { tweened } from 'svelte/motion'
+	import CountList from './CountList.svelte'
+	import { spring, tweened } from 'svelte/motion'
 	import { cubicOut } from 'svelte/easing'
 	import { loadImage } from './utils'
-	import { fly, slide } from 'svelte/transition'
+	import { slide } from 'svelte/transition'
 
 	const hostname = 'https://gacha.danmu9.com'
 	const initCount = () => tweened(0, {
@@ -38,11 +38,8 @@
 	let w2c = {}
 	let bg1 = `${hostname}/image/char/3040311000_02.png`
 	let bg2 = ''
-	let weaponListHeight
 
 	let bgStatus = true
-
-	$: overflow = 57 * Math.ceil(weaponList.length / 5) + 8 > weaponListHeight
 
 	const cardType = ['weapon', 'weapon', 'summon']
 	const rarityType = {
@@ -235,11 +232,7 @@
 	{/if}
 </div>
 <div class="starlight" on:mousemove="{bgOffset}" on:click="{() => active = false}">
-	<div class="weapon-list card-list" bind:clientHeight={weaponListHeight} class:active={active} class:reverse={!overflow}>
-		{#each weaponList as card}
-		<div class="card-wrap" in:fly="{{ y: 20, delay: 500 }}"><Card size="small" {...card} /></div>
-		{/each}
-	</div>
+	<CountList list={weaponList} {active} type="weapon" />
 	<div class="stage" class:active={active} on:mouseenter="{() => active = true}" on:click|stopPropagation="{() => active = true}">
 		<div class="content">
 			{#each result as block}
@@ -260,11 +253,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="summon-list card-list" class:active={active}>
-		{#each summonList as card}
-		<div class="card-wrap" in:fly="{{ y: -20, delay: 500 }}"><Card size="small" {...card} /></div>
-		{/each}
-	</div>
+	<CountList list={summonList} {active} type="summon" />
 </div>
 
 <style>
@@ -320,30 +309,7 @@
 		height: 194px;
 		margin-top: 14px;
 	}
-	.card-list {
-		display: flex;
-		width: 490px;
-		padding: 4px 0;
-		box-sizing: border-box;
-		align-content: start;
-		flex-wrap: wrap;
-		height: calc(50vh - 154px);
-		opacity: 0;
-		overflow-y: auto;
-	}
-	.card-list::-webkit-scrollbar {
-    display: none;
-	}
-	.card-list.active {
-		opacity: 1;
-	}
-	.weapon-list.reverse {
-		flex-wrap: wrap-reverse;
-		flex-direction: row-reverse;
-	}
-	.card-wrap {
-		margin: 2px 0;
-	}
+
 	.footer {
 		position: relative;
 		display: flex;

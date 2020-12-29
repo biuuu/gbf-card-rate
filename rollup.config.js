@@ -10,6 +10,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 fs.emptyDirSync('dist')
+fs.emptyDirSync('dist/static/')
 
 const production = !process.env.ROLLUP_WATCH;
 
