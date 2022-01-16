@@ -14,7 +14,7 @@
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
     "fs-extra": "^9.0.1",
-    "postcss": "^8.2.10",
+    "postcss": "^8.2.13",
     "postcss-url": "^10.1.1",
     "rollup": "^2.3.4",
     "rollup-plugin-livereload": "^2.0.0",
