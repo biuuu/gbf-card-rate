@@ -48,16 +48,16 @@ const main = async () => {
   let rateSSR = []
   let w2c = {}
   if (id10) {
-    const res = await $.get(`/gacha/provision_ratio/${id10}/1`)
+    const res = await $.get(`/gacha/provision_ratio/legend/${id10}/1`)
     rate1 = res.appear
   }
   if (id10) {
-    const res = await $.get(`/gacha/provision_ratio/${id10}/2`)
+    const res = await $.get(`/gacha/provision_ratio/legend/${id10}/2`)
     rate10 = res.appear
     w2c = await getChar(id10)
   }
   if (idSSR) {
-    const res = await $.get(`/gacha/provision_ratio/${idSSR}/3`)
+    const res = await $.get(`/gacha/provision_ratio/legend/${idSSR}/3`)
     rateSSR = res.appear
   }
   return [rate1, rate10, rateSSR, end, w2c]
