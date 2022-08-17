@@ -61,6 +61,7 @@
 	.weapon-list.reverse {
 		flex-wrap: wrap-reverse;
 		flex-direction: row-reverse;
+    		align-content: end;
 	}
 	.card-wrap {
 		margin: 2px 0;
