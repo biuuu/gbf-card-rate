@@ -25,7 +25,7 @@
     "sirv-cli": "^1.0.0",
     "axios": "^0.21.2",
     "glob": "^7.1.6",
-    "puppeteer": "^3.3.0"
+    "puppeteer": "18.1.0"
   },
   "dependencies": {
     "svelte": "^3.49.0"
