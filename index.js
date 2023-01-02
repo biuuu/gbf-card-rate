@@ -21,7 +21,7 @@ const waitClick = async (sel, page) => {
   await page.waitForSelector(sel)
   await Promise.all([
     page.waitForNavigation(),
-    page.click(sel)
+    page.tap(sel)
   ])
   console.log(`${sel} clicked`)
 }
@@ -117,31 +117,30 @@ const main = async () => {
   })
   console.log('launched')
   await page.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/84.0.4133.0')
-  await page.goto('https://game.granbluefantasy.jp/#gacha/legend')
+  await page.goto('https://game.granbluefantasy.jp/')
   console.log('loaded')
 
   // await page.waitForSelector('.female')
   // await page.click('.female')
-
-  // await waitClick('.btn-start', page)
+  // await waitClick('#start', page)
   // console.log('btn start')
   await page.waitForTimeout(3000)
+
   try {
-    const [rate1, rate10, rateSSR, end, weapon2char] = await Promise.race([page.evaluate(rate), sleep(60 * 1000)])
+    const [rate1, rate10, rateSSR, end, weapon2char] = await page.evaluate(rate)
     if (weapon2char) w2c = weapon2char
     if (rate1) {
-      // await fs.ensureDir('./dist/')
-      // await fs.outputJSON('./dist/normal.json', rate1)
-      // await fs.outputJSON('./dist/sr.json', rate10)
-      // await fs.outputJSON('./dist/ssr.json', rateSSR)
-      // await fs.outputJSON('./dist/w2c.json', w2c)
+      await fs.ensureDir('./dist/')
+      await fs.outputJSON('./dist/normal.json', rate1)
+      await fs.outputJSON('./dist/sr.json', rate10)
+      await fs.outputJSON('./dist/ssr.json', rateSSR)
+      await fs.outputJSON('./dist/w2c.json', w2c)
 
-      // await getImage(getCard(rate1))
-      // await getImage(getCard(rate10))
-      // await getImage(getCard(rateSSR))
+      await getImage(getCard(rate1))
+      await getImage(getCard(rate10))
+      await getImage(getCard(rateSSR))
 
-      // await fs.outputJSON('./dist/info.json', savedImage)
-      console.log(rate1)
+      await fs.outputJSON('./dist/info.json', savedImage)
     } else {
       console.log('evalute failed')
     }

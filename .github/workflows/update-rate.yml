@@ -33,7 +33,7 @@ jobs:
         cache: 'pnpm'
     - name: Get Rate
       run: |
-        pnpm install --no-frozen-lockfile
+        pnpm install
         node ./index.js --COOKIE=${{ secrets.COOKIE }}
     - name: Deploy
       if: success()
