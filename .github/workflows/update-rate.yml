@@ -29,8 +29,7 @@ jobs:
         node-version: 16
     - name: Get Rate
       run: |
-        yarn --frozen-lockfile
-        node ./index.js --COOKIE=${{ secrets.COOKIE }}
+        yarn --frozen-lockfile && node ./index.js --COOKIE=${{ secrets.COOKIE }}
     - name: Deploy
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
