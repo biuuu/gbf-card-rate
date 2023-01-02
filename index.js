@@ -127,9 +127,7 @@ const main = async () => {
   await waitClick('.btn-start', page)
   console.log('btn start')
   await page.waitForTimeout(3000)
-  await page.waitForNetworkIdle({
-    timeout: 3000
-  })
+  await page.waitForNetworkIdle()
   try {
     const [rate1, rate10, rateSSR, end, weapon2char] = await Promise.race([page.evaluate(rate), sleep(30 * 1000)])
     if (weapon2char) w2c = weapon2char
