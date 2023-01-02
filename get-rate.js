@@ -71,7 +71,7 @@ const main = async () => {
   //   })
   //   rateSSR = res.appear
   // }
-  return [id10, rate1, rate10, rateSSR, end, w2c]
+  return [id10]
 }
 
 module.exports = main
