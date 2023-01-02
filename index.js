@@ -114,7 +114,7 @@ const main = async () => {
     Cookie: cookie
   })
   await page.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/84.0.4133.0')
-  await page.goto('http://game.granbluefantasy.jp/#tutorial/3')
+  await page.goto('https://game.granbluefantasy.jp/#gacha/legend')
   console.log('loaded')
 
   // await page.waitForSelector('.female')
