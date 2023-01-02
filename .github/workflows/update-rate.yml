@@ -33,7 +33,8 @@ jobs:
         cache: 'pnpm'
     - name: Get Rate
       run: |
-        pnpm i && node ./index.js --COOKIE=${{ secrets.COOKIE }}
+        pnpm install --no-frozen-lockfile
+        node ./index.js --COOKIE=${{ secrets.COOKIE }}
     - name: Deploy
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
