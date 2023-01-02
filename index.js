@@ -108,7 +108,7 @@ if (/^--COOKIE=.+/.test(str)) {
 const main = async () => {
   console.log('waiting launch')
   const browser = await puppeteer.launch({
-    headless: false
+
   })
   const page = await browser.newPage()
 
