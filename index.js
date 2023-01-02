@@ -102,7 +102,6 @@ const str = process.argv[process.argv.length - 1]
 let cookie = ''
 if (/^--COOKIE=.+/.test(str)) {
   cookie = decodeURIComponent(str.replace('--COOKIE=', ''))
-  console.log('cookie')
 }
 
 const main = async () => {
