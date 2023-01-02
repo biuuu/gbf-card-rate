@@ -26,52 +26,52 @@ const main = async () => {
     throw new Error(res.responseText)
   })
 
-  const getChar = async (id10) => {
-    const res = await $.get(`/gacha/content/release/legend/${id10}`).fail(res => {
-      throw new Error(res.responseText)
-    })
-    const html = decodeURIComponent(res.data)
-    const $html = $(html)
-    const data = {}
-    const items = $html
-      .find('.prt-release-lineup .prt-lineup:eq(0)')
-      .find('.prt-topic-item')
-      .find('.lis-topic-item')
-    items.each(function () {
-      const item = $(this)
-      const wid = item.find('.btn-topic .img-topic').attr('alt')
-      const cid = item.find('.btn-character .img-open-character').attr('alt').replace(/_0[12]$/, '')
-      if (wid && cid) {
-        data[wid] = cid
-      }
-    })
-    return data
-  }
+  // const getChar = async (id10) => {
+  //   const res = await $.get(`/gacha/content/release/legend/${id10}`).fail(res => {
+  //     throw new Error(res.responseText)
+  //   })
+  //   const html = decodeURIComponent(res.data)
+  //   const $html = $(html)
+  //   const data = {}
+  //   const items = $html
+  //     .find('.prt-release-lineup .prt-lineup:eq(0)')
+  //     .find('.prt-topic-item')
+  //     .find('.lis-topic-item')
+  //   items.each(function () {
+  //     const item = $(this)
+  //     const wid = item.find('.btn-topic .img-topic').attr('alt')
+  //     const cid = item.find('.btn-character .img-open-character').attr('alt').replace(/_0[12]$/, '')
+  //     if (wid && cid) {
+  //       data[wid] = cid
+  //     }
+  //   })
+  //   return data
+  // }
 
-  let rate1 = []
-  let rate10 = []
-  let rateSSR = []
-  let w2c = {}
-  if (id10) {
-    const res = await $.get(`/gacha/provision_ratio/legend/${id10}/1`).fail(res => {
-      throw new Error(res.responseText)
-    })
-    rate1 = res.appear
-  }
-  if (id10) {
-    const res = await $.get(`/gacha/provision_ratio/legend/${id10}/2`).fail(res => {
-      throw new Error(res.responseText)
-    })
-    rate10 = res.appear
-    w2c = await getChar(id10)
-  }
-  if (idSSR) {
-    const res = await $.get(`/gacha/provision_ratio/legend/${idSSR}/3`).fail(res => {
-      throw new Error(res.responseText)
-    })
-    rateSSR = res.appear
-  }
-  return [rate1, rate10, rateSSR, end, w2c]
+  // let rate1 = []
+  // let rate10 = []
+  // let rateSSR = []
+  // let w2c = {}
+  // if (id10) {
+  //   const res = await $.get(`/gacha/provision_ratio/legend/${id10}/1`).fail(res => {
+  //     throw new Error(res.responseText)
+  //   })
+  //   rate1 = res.appear
+  // }
+  // if (id10) {
+  //   const res = await $.get(`/gacha/provision_ratio/legend/${id10}/2`).fail(res => {
+  //     throw new Error(res.responseText)
+  //   })
+  //   rate10 = res.appear
+  //   w2c = await getChar(id10)
+  // }
+  // if (idSSR) {
+  //   const res = await $.get(`/gacha/provision_ratio/legend/${idSSR}/3`).fail(res => {
+  //     throw new Error(res.responseText)
+  //   })
+  //   rateSSR = res.appear
+  // }
+  return [id10, rate1, rate10, rateSSR, end, w2c]
 }
 
 module.exports = main

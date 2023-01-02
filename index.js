@@ -130,17 +130,18 @@ const main = async () => {
     const [rate1, rate10, rateSSR, end, weapon2char] = await Promise.race([page.evaluate(rate), sleep(60 * 1000)])
     if (weapon2char) w2c = weapon2char
     if (rate1) {
-      await fs.ensureDir('./dist/')
-      await fs.outputJSON('./dist/normal.json', rate1)
-      await fs.outputJSON('./dist/sr.json', rate10)
-      await fs.outputJSON('./dist/ssr.json', rateSSR)
-      await fs.outputJSON('./dist/w2c.json', w2c)
+      // await fs.ensureDir('./dist/')
+      // await fs.outputJSON('./dist/normal.json', rate1)
+      // await fs.outputJSON('./dist/sr.json', rate10)
+      // await fs.outputJSON('./dist/ssr.json', rateSSR)
+      // await fs.outputJSON('./dist/w2c.json', w2c)
 
-      await getImage(getCard(rate1))
-      await getImage(getCard(rate10))
-      await getImage(getCard(rateSSR))
+      // await getImage(getCard(rate1))
+      // await getImage(getCard(rate10))
+      // await getImage(getCard(rateSSR))
 
-      await fs.outputJSON('./dist/info.json', savedImage)
+      // await fs.outputJSON('./dist/info.json', savedImage)
+      console.log(rate1)
     } else {
       console.log('evalute failed')
     }
