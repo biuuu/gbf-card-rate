@@ -71,18 +71,18 @@ const download = async (name, url, pathname) => {
 
 const getImage = async (card) => {
   for (let item of card) {
-    const url = `http://game-a1.granbluefantasy.jp/assets/img/sp/assets/${item.cat}/m/${item.id}.jpg`
+    const url = `http://prd-game-a1-granbluefantasy.akamaized.net/assets/img/sp/assets/${item.cat}/m/${item.id}.jpg`
     const name = `card-${item.id}`
     const pathname = `./dist/image/card/${item.id}.jpg`
     await download(name, url, pathname)
     if (item.cat === 'weapon' && item.type === 'ssr' && w2c[item.id]) {
       let cid = w2c[item.id]
-      await download(`char-${cid}-1`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/npc/zoom/${cid}_01.png`, `./dist/image/char/${cid}_01.png`)
-      await download(`char-${cid}-2`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/npc/zoom/${cid}_02.png`, `./dist/image/char/${cid}_02.png`)
-      await download(`card-${cid}-1`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/npc/m/${cid}_01.jpg`, `./dist/image/card/${cid}_01.jpg`)
+      await download(`char-${cid}-1`, `http://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/npc/zoom/${cid}_01.png`, `./dist/image/char/${cid}_01.png`)
+      await download(`char-${cid}-2`, `http://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/npc/zoom/${cid}_02.png`, `./dist/image/char/${cid}_02.png`)
+      await download(`card-${cid}-1`, `http://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/npc/m/${cid}_01.jpg`, `./dist/image/card/${cid}_01.jpg`)
     }
     if (item.cat === 'summon' && item.type === 'ssr') {
-      await download(`summon-${item.id}`, `http://game-a.granbluefantasy.jp/assets/img/sp/assets/summon/b/${item.id}.png`, `./dist/image/summon/${item.id}.png`)
+      await download(`summon-${item.id}`, `http://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/summon/b/${item.id}.png`, `./dist/image/summon/${item.id}.png`)
     }
   }
 }
