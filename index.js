@@ -124,7 +124,8 @@ const main = async () => {
   // await page.waitForSelector('.female')
   // await page.click('.female')
 
-  // await waitClick('.btn-start', page)
+  await waitClick('.btn-start', page)
+  console.log('btn start')
   try {
     const [rate1, rate10, rateSSR, end, weapon2char] = await Promise.race([page.evaluate(rate), sleep(30 * 1000)])
     if (weapon2char) w2c = weapon2char
