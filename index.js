@@ -106,14 +106,17 @@ if (/^--COOKIE=.+/.test(str)) {
 }
 
 const main = async () => {
-  const browser = await puppeteer.launch()
+  console.log('waiting launch')
+  const browser = await puppeteer.launch({
+    headless: false
+  })
   const page = await browser.newPage()
 
   page.setDefaultNavigationTimeout(60 * 1000)
   await page.setExtraHTTPHeaders({
     Cookie: cookie
   })
-  console.log('launch browser')
+  console.log('launched')
   await page.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/84.0.4133.0')
   await page.goto('https://game.granbluefantasy.jp/#gacha/legend')
   console.log('loaded')
