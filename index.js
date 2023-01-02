@@ -123,11 +123,11 @@ const main = async () => {
   // await page.waitForSelector('.female')
   // await page.click('.female')
 
-  await waitClick('.btn-start', page)
-  console.log('btn start')
+  // await waitClick('.btn-start', page)
+  // console.log('btn start')
   await page.waitForTimeout(3000)
   try {
-    const [rate1, rate10, rateSSR, end, weapon2char] = await Promise.race([page.evaluate(rate), sleep(30 * 1000)])
+    const [rate1, rate10, rateSSR, end, weapon2char] = await Promise.race([page.evaluate(rate), sleep(60 * 1000)])
     if (weapon2char) w2c = weapon2char
     if (rate1) {
       await fs.ensureDir('./dist/')
