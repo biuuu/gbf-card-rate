@@ -22,7 +22,7 @@ jobs:
         token: ${{ secrets.UPDATE_WORKFLOW }}
     - uses: pnpm/action-setup@v4
       with:
-        version: 7
+        version: 9
     - name: Use Node.js
       uses: actions/setup-node@v4
       with:
