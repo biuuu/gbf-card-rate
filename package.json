@@ -28,6 +28,6 @@
     "puppeteer": "18.1.0"
   },
   "dependencies": {
-    "svelte": "^5.53.5"
+    "svelte": "^5.55.7"
   }
 }
