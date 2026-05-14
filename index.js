@@ -104,53 +104,71 @@ if (/^--COOKIE=.+/.test(str)) {
   cookie = decodeURIComponent(str.replace('--COOKIE=', ''))
 }
 
+const TIMEOUT_MS = 5 * 60 * 1000
+const EVALUATE_TIMEOUT_MS = 60 * 1000
+
 const main = async () => {
   console.log('waiting launch')
   const browser = await puppeteer.launch({
 
   })
-  const page = await browser.newPage()
-
-  page.setDefaultNavigationTimeout(60 * 1000)
-  await page.setExtraHTTPHeaders({
-    Cookie: cookie
-  })
-  console.log('launched')
-  await page.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/84.0.4133.0')
-  await page.goto('https://game.granbluefantasy.jp/')
-  console.log('loaded')
-
-  // await page.waitForSelector('.female')
-  // await page.click('.female')
-  // await waitClick('#start', page)
-  // console.log('btn start')
-  await page.waitForTimeout(3000)
 
   try {
-    const [rate1, rate10, rateSSR, end, weapon2char] = await page.evaluate(rate)
-    if (weapon2char) w2c = weapon2char
-    if (rate1) {
-      await fs.ensureDir('./dist/')
-      await fs.outputJSON('./dist/normal.json', rate1)
-      await fs.outputJSON('./dist/sr.json', rate10)
-      await fs.outputJSON('./dist/ssr.json', rateSSR)
-      await fs.outputJSON('./dist/w2c.json', w2c)
+    const page = await browser.newPage()
 
-      await getImage(getCard(rate1))
-      await getImage(getCard(rate10))
-      await getImage(getCard(rateSSR))
+    page.setDefaultNavigationTimeout(60 * 1000)
+    await page.setExtraHTTPHeaders({
+      Cookie: cookie
+    })
+    console.log('launched')
+    await page.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/84.0.4133.0')
+    await page.goto('https://game.granbluefantasy.jp/')
+    console.log('loaded')
 
-      await fs.outputJSON('./dist/info.json', savedImage)
-    } else {
-      console.log('evalute failed')
+    // await page.waitForSelector('.female')
+    // await page.click('.female')
+    // await waitClick('#start', page)
+    // console.log('btn start')
+    await sleep(3000)
+
+    try {
+      const [rate1, rate10, rateSSR, end, weapon2char] = await Promise.race([
+        page.evaluate(rate),
+        sleep(EVALUATE_TIMEOUT_MS).then(() => { throw new Error('evaluate timed out') })
+      ])
+      if (weapon2char) w2c = weapon2char
+      if (rate1) {
+        await fs.ensureDir('./dist/')
+        await fs.outputJSON('./dist/normal.json', rate1)
+        await fs.outputJSON('./dist/sr.json', rate10)
+        await fs.outputJSON('./dist/ssr.json', rateSSR)
+        await fs.outputJSON('./dist/w2c.json', w2c)
+
+        await getImage(getCard(rate1))
+        await getImage(getCard(rate10))
+        await getImage(getCard(rateSSR))
+
+        await fs.outputJSON('./dist/info.json', savedImage)
+      } else {
+        console.log('evalute failed')
+      }
+    } catch (e) {
+      console.log('Error during rate evaluation:', e.message)
     }
-  } catch (e) {
-    console.log(e.message)
+
+    // await updateNextTime(end)
+  } finally {
+    await browser.close()
   }
-
-  // await updateNextTime(end)
-
-  await browser.close()
 }
 
-main()
+const timer = setTimeout(() => {
+  console.error('overall timeout reached, forcing exit')
+  process.exit(1)
+}, TIMEOUT_MS)
+timer.unref()
+
+main().then(() => process.exit(0)).catch(e => {
+  console.error(e.message)
+  process.exit(1)
+})
